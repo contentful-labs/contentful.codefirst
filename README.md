@@ -88,4 +88,68 @@ The `InternalId` property will now be ignored when creating fields for the conte
 
 ## Validations
 
-To be continued...
+To add validations to fields you add a `ValidationAttribute` to the property.
+
+```csharp
+[ContentType(Name = "A blogpost", Id = "blogPost", DisplayField = "title", Description = "A simple blog post content type")]
+public class BlogPost {
+
+  [ContentField(Id = "title", Name = "The title!", Type = SystemFieldTypes.Symbol, Disabled = false, Omitted = false, Localized = true,  Required = true)]
+  [Unique]
+  public string Title { get; set; }
+  ...omitted for brevity.
+}
+```
+
+This example adds a unique validation to the title field.
+
+All possible validations in Contentful are supported with the following attributes.
+
+- `Size` &mdash; to control the maximum and minimum size of a field.
+- `Range` &mdash; to control that the value of a field is within a specific range.
+- `LinkContentType` &mdash; to control that links to other entries are of a certain content type.
+- `InValues` &mdash; to control that a fields value is in a given set of values.
+- `MimeType` &mdash; to control that an asset field file is of a certain mime type group.
+- `Regex` &mdash; to control that the value of a field adheres to the specified regular expression.
+- `Unique` &mdash; to verify that the value of a field is unique amongst the entries.
+
+## Links and collections
+
+If you do not specify the `Type` for a field Contentful.CodeFirst will use the best suited type for your property. A string will be `Text` an int will be `Integer` and an arbitrary object will be `Object`. If the property is of type `ICollection` the type in Contentful will be `Array`.
+
+When modeling a link to another entry you must specify the type yourself.
+
+```csharp
+[ContentType]
+public class BlogPost {
+  ...omitted for brevity.
+  [ContentField(Type = SystemFieldTypes.Link, LinkType = "Entry")]
+  public Author Author { get; set; }
+}
+```
+
+This changes our Author property from a string to an Author and with a `ContentField` attribute we specify that this is a `Link` field to another entry. If we wanted to control what types of entries can be added to the field we'd add a `LinkContentType` attribute.
+
+```csharp
+[ContentType]
+public class BlogPost {
+  ...omitted for brevity.
+  [ContentField(Type = SystemFieldTypes.Link, LinkType = "Entry")]
+  [LinkContentType("author")]
+  public Author Author { get; set; }
+}
+```
+
+Collection of entries or assets works the same way, but you have to specify the type of items in the collection instead of for the field.
+
+```csharp
+[ContentType]
+public class BlogPost {
+  ...omitted for brevity.
+  [ContentField(ItemsType = SystemFieldTypes.Link, ItemsLinkType = "Entry")]
+  [LinkContentType("author")]
+  public List<Author> Author { get; set; }
+}
+```
+
+Note how the `Type` property of the `ContentField` attribute can be omitted as the type `Array` is inferred from the `List` type.
