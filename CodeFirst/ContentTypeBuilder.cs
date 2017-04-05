@@ -46,7 +46,7 @@ namespace Contentful.CodeFirst
         /// <returns>An enumerable of <see cref="ContentType"/> ready to be created/updated in Contentful.</returns>
         public static IEnumerable<ContentType> InitializeContentTypes(IEnumerable<Type> types)
         {
-            types = types.OrderBy(c => c.GetTypeInfo().GetCustomAttribute<ContentTypeAttribute>().Order);
+            types = types.OrderBy(c => c.GetTypeInfo().GetCustomAttribute<ContentTypeAttribute>()?.Order ?? 0);
 
             foreach (var type in types)
             {
