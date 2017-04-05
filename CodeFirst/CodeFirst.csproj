@@ -13,6 +13,14 @@
     <Description>A helper package to the Contentful.csharp package to allow for automatical generation of content types from csharp classes.</Description>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp1.1\.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="contentful.csharp" Version="0.10.8-beta" />
   </ItemGroup>

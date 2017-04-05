@@ -58,20 +58,21 @@ namespace Contentful.CodeFirst
                 var displayField = attribute.DisplayField;
                 var description = attribute.Description;
 
-                var contentType = new ContentType();
-                contentType.SystemProperties = new SystemProperties
+                var contentType = new ContentType()
                 {
-                    Id = id
+                    SystemProperties = new SystemProperties
+                    {
+                        Id = id
+                    },
+
+                    Name = name,
+
+                    DisplayField = displayField,
+
+                    Description = description,
+
+                    Fields = new List<Field>()
                 };
-
-                contentType.Name = name;
-
-                contentType.DisplayField = displayField;
-
-                contentType.Description = description;
-
-                contentType.Fields = new List<Field>();
-
                 foreach (var prop in type.GetProperties())
                 {
                     if (prop.GetCustomAttribute<IgnoreContentFieldAttribute>() != null)
@@ -80,16 +81,17 @@ namespace Contentful.CodeFirst
                     }
 
                     var fieldAttribute = prop.GetCustomAttribute<ContentFieldAttribute>() ?? new ContentFieldAttribute();
-                    var field = new Field();
-                    field.Id = fieldAttribute.Id ?? prop.Name;
-                    field.Name = fieldAttribute.Name ?? prop.Name;
-                    field.Type = fieldAttribute.Type ?? FieldTypeConverter.Convert(prop.PropertyType);
-                    field.Disabled = fieldAttribute.Disabled;
-                    field.Omitted = fieldAttribute.Omitted;
-                    field.Required = fieldAttribute.Required;
-                    field.LinkType = fieldAttribute.LinkType;
-                    field.Validations = new List<IFieldValidator>();
-
+                    var field = new Field()
+                    {
+                        Id = fieldAttribute.Id ?? prop.Name,
+                        Name = fieldAttribute.Name ?? prop.Name,
+                        Type = fieldAttribute.Type ?? FieldTypeConverter.Convert(prop.PropertyType),
+                        Disabled = fieldAttribute.Disabled,
+                        Omitted = fieldAttribute.Omitted,
+                        Required = fieldAttribute.Required,
+                        LinkType = fieldAttribute.LinkType,
+                        Validations = new List<IFieldValidator>()
+                    };
                     var validationAttributes = prop.GetCustomAttributes<ContentfulValidationAttribute>();
 
                     foreach (var validation in validationAttributes)
@@ -191,6 +193,13 @@ namespace Contentful.CodeFirst
             return createdTypes;
         }
 
+        /// <summary>
+        /// Creates content types in Contentful from any types with a <see cref="ContentTypeAttribute"/> found in an Assembly.
+        /// </summary>
+        /// <param name="assemblyName">The assembly to load types from.</param>
+        /// <param name="configuration">The configuration for the creation process.</param>
+        /// <param name="client">The optional client to use for creation.</param>
+        /// <returns>A list of created or updated content types.</returns>
         public static async Task<List<ContentType>> CreateContentTypesFromAssembly(string assemblyName, ContentfulCodeFirstConfiguration configuration, IContentfulManagementClient client = null)
         {
             var types = LoadTypes(assemblyName);

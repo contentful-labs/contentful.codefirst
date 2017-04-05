@@ -60,10 +60,11 @@ namespace CodeFirst.Tests
         public async Task CreatingContentTypesShouldCallCorrectMethods()
         {
             //Arrange
-            var contentType = new ContentType();
-            contentType.Name = "Test";
-            contentType.SystemProperties = new SystemProperties { Id = "FFff", Version = 7  };
-
+            var contentType = new ContentType()
+            {
+                Name = "Test",
+                SystemProperties = new SystemProperties { Id = "FFff", Version = 7 }
+            };
             var config = new ContentfulCodeFirstConfiguration();
 
             var client = new Mock<IContentfulManagementClient>();
@@ -85,10 +86,11 @@ namespace CodeFirst.Tests
         public async Task CreatingContentTypesShouldCallActivateMethodIfConfigIsSet()
         {
             //Arrange
-            var contentType = new ContentType();
-            contentType.Name = "Test";
-            contentType.SystemProperties = new SystemProperties { Id = "FFff", Version = 7 };
-
+            var contentType = new ContentType()
+            {
+                Name = "Test",
+                SystemProperties = new SystemProperties { Id = "FFff", Version = 7 }
+            };
             var config = new ContentfulCodeFirstConfiguration { PublishAutomatically = true };
 
             var client = new Mock<IContentfulManagementClient>();
