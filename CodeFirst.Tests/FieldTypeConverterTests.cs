@@ -1,4 +1,6 @@
 ﻿using Contentful.CodeFirst;
+using Contentful.Core.Models;
+using Contentful.Core.Models.Management;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,6 +29,10 @@ namespace CodeFirst.Tests
         [InlineData(typeof(Dictionary<string,string>), "Array")]
         [InlineData(typeof(object), "Object")]
         [InlineData(typeof(InvalidTimeZoneException), "Object")]
+        [InlineData(typeof(Asset), "Link")]
+        [InlineData(typeof(ManagementAsset), "Link")]
+        [InlineData(typeof(Entry<dynamic>), "Link")]
+        [InlineData(typeof(Entry<int>), "Link")]
         public void ConvertingPrimitiveTypesShouldYieldCorrectResult(Type type, string exptected)
         {
             //Arrange

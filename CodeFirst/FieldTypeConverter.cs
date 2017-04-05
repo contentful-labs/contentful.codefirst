@@ -1,4 +1,5 @@
-﻿using Contentful.Core.Models.Management;
+﻿using Contentful.Core.Models;
+using Contentful.Core.Models.Management;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -42,6 +43,11 @@ namespace Contentful.CodeFirst
             if(type == typeof(bool) || type == typeof(bool?))
             {
                 return SystemFieldTypes.Boolean;
+            }
+
+            if(type == typeof(Asset) || type == typeof(ManagementAsset) || (type.IsConstructedGenericType && type.GetGenericTypeDefinition() == typeof(Entry<>)))
+            {
+                return SystemFieldTypes.Link;
             }
 
             if(typeof(ICollection).IsAssignableFrom(type))
