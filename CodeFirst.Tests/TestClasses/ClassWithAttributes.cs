@@ -30,6 +30,9 @@ namespace CodeFirst.Tests.TestClasses
 
         [IgnoreContentField]
         public int IgnoredProp { get; set; }
+
+        [DateRange(Min = "2017-01-01")]
+        public DateTime Field4 { get; set; }
     }
 
     [ContentType]

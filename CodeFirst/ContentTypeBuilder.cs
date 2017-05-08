@@ -130,6 +130,11 @@ namespace Contentful.CodeFirst
                         {
                             field.Validations.Add(new UniqueValidator());
                         }
+
+                        if (validation is DateRangeAttribute)
+                        {
+                            field.Validations.Add(new DateRangeValidator((validation as DateRangeAttribute).Min, (validation as DateRangeAttribute).Max, validation.HelpText));
+                        }
                     }
 
                     if (typeof(ICollection).IsAssignableFrom(prop.PropertyType))

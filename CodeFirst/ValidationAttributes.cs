@@ -121,4 +121,22 @@ namespace Contentful.CodeFirst
     public class UniqueAttribute : ContentfulValidationAttribute
     {
     }
+
+
+    /// <summary>
+    /// Specifies that this property should have a date range validation in Contentful.
+    /// </summary>
+    [System.AttributeUsage(System.AttributeTargets.Property, AllowMultiple = false)]
+    public class DateRangeAttribute : ContentfulValidationAttribute
+    {
+        /// <summary>
+        /// The minimum date (yyyy-MM-dd)
+        /// </summary>
+        public string Min { get; set; }
+
+        /// <summary>
+        /// The maximum date (yyyy-MM-dd)
+        /// </summary>
+        public string Max { get; set; }
+    }
 }
