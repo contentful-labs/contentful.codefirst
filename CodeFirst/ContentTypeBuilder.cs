@@ -118,7 +118,7 @@ namespace Contentful.CodeFirst
 
                         if (validation is MimeTypeAttribute)
                         {
-                            field.Validations.Add(new MimeTypeValidator((validation as MimeTypeAttribute).MimeType, validation.HelpText));
+                            field.Validations.Add(new MimeTypeValidator((validation as MimeTypeAttribute).MimeTypes, validation.HelpText));
                         }
 
                         if (validation is RegexAttribute)

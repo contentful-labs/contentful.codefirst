@@ -94,9 +94,9 @@ namespace Contentful.CodeFirst
     public class MimeTypeAttribute : ContentfulValidationAttribute
     {
         /// <summary>
-        /// The mime type group to restrict the field by in Contentful.
+        /// The mime type groups to restrict the field by in Contentful.
         /// </summary>
-        public MimeTypeRestriction MimeType { get; set; }
+        public MimeTypeRestriction[] MimeTypes { get; set; }
     }
 
     /// <summary>

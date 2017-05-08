@@ -1,5 +1,7 @@
 ﻿using Contentful.CodeFirst;
+using Contentful.Core.Models;
 using Contentful.Core.Models.Management;
+using Contentful.Core.Search;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,6 +24,9 @@ namespace CodeFirst.Tests.TestClasses
         [Size(HelpText = "Too many or too few!", Max = 5, Min = 2)]
         [LinkContentType("Person")]
         public List<Person> Field3 { get; set; }
+
+        [MimeType(MimeTypes = new MimeTypeRestriction[] { MimeTypeRestriction.Image })]
+        public Asset Asset { get; set; }
 
         [IgnoreContentField]
         public int IgnoredProp { get; set; }

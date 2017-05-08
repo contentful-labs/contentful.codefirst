@@ -51,7 +51,7 @@ namespace CodeFirst.Tests
                     Assert.Equal("something", f.SystemProperties.Id);
                     Assert.Equal("field1", f.DisplayField);
                     Assert.Equal("Some description", f.Description);
-                    Assert.Equal(3, f.Fields.Count);
+                    Assert.Equal(4, f.Fields.Count);
                 }
                 );
         }
@@ -120,7 +120,7 @@ namespace CodeFirst.Tests
             var first = contentTypes.First();
             //Assert
             Assert.Equal(1, contentTypes.Count());
-            Assert.Equal(3, first.Fields.Count);
+            Assert.Equal(4, first.Fields.Count);
             Assert.Equal(2, first.Fields[2].Validations.Count);
             Assert.IsType<SizeValidator>(first.Fields[2].Validations[0]);
             Assert.IsType<LinkContentTypeValidator>(first.Fields[2].Validations[1]);
