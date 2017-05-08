@@ -22,15 +22,25 @@ namespace Contentful.CodeFirst
     /// </summary>
     public class SizeAttribute : ContentfulValidationAttribute
     {
+        internal int? _max;
+        internal int? _min;
+
         /// <summary>
         /// The maximum number.
         /// </summary>
-        public int Max { get; set; }
+        public int Max
+        {
+            get => _max ?? 0;
+            set => _max = value;
+        }
 
         /// <summary>
         /// The minimum number.
         /// </summary>
-        public int Min { get; set; }
+        public int Min {
+            get => _min ?? 0;
+            set => _min = value;
+        }
     }
 
     /// <summary>
@@ -38,15 +48,26 @@ namespace Contentful.CodeFirst
     /// </summary>
     public class RangeAttribute : ContentfulValidationAttribute
     {
+        internal int? _max;
+        internal int? _min;
+
         /// <summary>
         /// The maximum number in the range.
         /// </summary>
-        public int Max { get; set; }
+        public int Max
+        {
+            get => _max ?? 0;
+            set => _max = value;
+        }
 
         /// <summary>
         /// The minimum number in the range.
         /// </summary>
-        public int Min { get; set; }
+        public int Min
+        {
+            get => _min ?? 0;
+            set => _min = value;
+        }
     }
 
     /// <summary>
@@ -147,37 +168,25 @@ namespace Contentful.CodeFirst
     [System.AttributeUsage(System.AttributeTargets.Property, AllowMultiple = false)]
     public class FileSizeAttribute : ContentfulValidationAttribute
     {
-        protected int? min = null;
+        internal int? _min;
+        internal int? _max;
         /// <summary>
         /// The minimum file size
         /// </summary>
         public int Min
         {
-            get
-            {
-                return this.min.GetValueOrDefault();
-            }
-            set
-            {
-                this.min = value;
-            }
+            get => _min ?? 0;
+            set => _min = value;
         }
 
-        protected int? max = null;
 
         /// <summary>
         /// The maximum file size
         /// </summary>
         public int Max
         {
-            get
-            {
-                return this.max.GetValueOrDefault();
-            }
-            set
-            {
-                this.max = value;
-            }
+            get => _max ?? 0;
+            set => _max = value;
         }
 
         /// <summary>
@@ -194,7 +203,7 @@ namespace Contentful.CodeFirst
         {
             get
             {
-                return new FileSizeValidator(min, max, MinUnit, MaxUnit, HelpText);
+                return new FileSizeValidator(_min, _max, MinUnit, MaxUnit, HelpText);
             }
         }
     }
