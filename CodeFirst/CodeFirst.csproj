@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="contentful.csharp" Version="0.10.8-beta" />
+    <PackageReference Include="contentful.csharp" Version="0.13.0-beta" />
   </ItemGroup>
 
 </Project>
