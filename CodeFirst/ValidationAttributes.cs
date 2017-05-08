@@ -15,6 +15,7 @@ namespace Contentful.CodeFirst
         /// The helptext to be displayed for the validation message in Contentful.
         /// </summary>
         public string HelpText { get; set; }
+
     }
 
     /// <summary>

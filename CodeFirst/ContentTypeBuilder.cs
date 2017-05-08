@@ -75,7 +75,7 @@ namespace Contentful.CodeFirst
                 };
                 foreach (var prop in type.GetProperties())
                 {
-                    if (prop.GetCustomAttribute<IgnoreContentFieldAttribute>() != null || prop.GetSetMethod() == null)
+                    if (prop.GetSetMethod() == null || prop.GetCustomAttribute<IgnoreContentFieldAttribute>() != null)
                     {
                         continue;
                     }
