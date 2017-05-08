@@ -16,7 +16,6 @@ namespace Contentful.CodeFirst
         /// </summary>
         public string HelpText { get; set; }
 
-        public abstract string[] ValidFieldTypes { get; }
     }
 
     /// <summary>
@@ -24,22 +23,24 @@ namespace Contentful.CodeFirst
     /// </summary>
     public class SizeAttribute : ContentfulValidationAttribute
     {
+        internal int? _max;
+        internal int? _min;
+
         /// <summary>
         /// The maximum number.
         /// </summary>
-        public int Max { get; set; }
+        public int Max
+        {
+            get => _max ?? 0;
+            set => _max = value;
+        }
 
         /// <summary>
         /// The minimum number.
         /// </summary>
-        public int Min { get; set; }
-
-        public override string[] ValidFieldTypes
-        {
-            get
-            {
-				return new[] { SystemFieldTypes.Array, SystemFieldTypes.Symbol, SystemFieldTypes.Text, SystemFieldTypes.Object };
-            }
+        public int Min {
+            get => _min ?? 0;
+            set => _min = value;
         }
     }
 
@@ -48,22 +49,25 @@ namespace Contentful.CodeFirst
     /// </summary>
     public class RangeAttribute : ContentfulValidationAttribute
     {
+        internal int? _max;
+        internal int? _min;
+
         /// <summary>
         /// The maximum number in the range.
         /// </summary>
-        public int Max { get; set; }
+        public int Max
+        {
+            get => _max ?? 0;
+            set => _max = value;
+        }
 
         /// <summary>
         /// The minimum number in the range.
         /// </summary>
-        public int Min { get; set; }
-
-        public override string[] ValidFieldTypes
+        public int Min
         {
-            get
-            {
-                return new[] { SystemFieldTypes.Integer, SystemFieldTypes.Number };
-            }
+            get => _min ?? 0;
+            set => _min = value;
         }
     }
 
@@ -85,14 +89,6 @@ namespace Contentful.CodeFirst
         /// The ids of the content types to restrict the field for in Contentful.
         /// </summary>
         public string[] ContentTypeIds { get; set; }
-
-        public override string[] ValidFieldTypes
-        {
-            get
-            {
-                return new[] { SystemFieldTypes.Link };
-            }
-        }
     }
 
     /// <summary>
@@ -113,14 +109,6 @@ namespace Contentful.CodeFirst
         /// The values allowed for this field in Contentful.
         /// </summary>
         public string[] Values { get; set; }
-
-        public override string[] ValidFieldTypes
-        {
-            get
-            {
-                return new[] { SystemFieldTypes.Symbol, SystemFieldTypes.Text, SystemFieldTypes.Integer, SystemFieldTypes.Number };
-            }
-        }
     }
 
     /// <summary>
@@ -132,14 +120,6 @@ namespace Contentful.CodeFirst
         /// The mime type groups to restrict the field by in Contentful.
         /// </summary>
         public MimeTypeRestriction[] MimeTypes { get; set; }
-
-        public override string[] ValidFieldTypes
-        {
-            get
-            {
-                return new[] { SystemFieldTypes.Link };
-            }
-        }
     }
 
     /// <summary>
@@ -156,14 +136,6 @@ namespace Contentful.CodeFirst
         /// The flags of the expression.
         /// </summary>
         public string Flags { get; set; }
-
-        public override string[] ValidFieldTypes
-        {
-            get
-            {
-                return new[] { SystemFieldTypes.Symbol, SystemFieldTypes.Text };
-            }
-        }
     }
 
     /// <summary>
@@ -171,13 +143,6 @@ namespace Contentful.CodeFirst
     /// </summary>
     public class UniqueAttribute : ContentfulValidationAttribute
     {
-        public override string[] ValidFieldTypes
-        {
-            get
-            {
-                return new[] { SystemFieldTypes.Symbol, SystemFieldTypes.Integer, SystemFieldTypes.Number };
-            }
-        }
     }
 
 
@@ -196,14 +161,6 @@ namespace Contentful.CodeFirst
         /// The maximum date (yyyy-MM-dd)
         /// </summary>
         public string Max { get; set; }
-
-        public override string[] ValidFieldTypes
-        {
-            get
-            {
-                return new[] { SystemFieldTypes.Date };
-            }
-        }
     }
 
     /// <summary>
@@ -212,37 +169,25 @@ namespace Contentful.CodeFirst
     [System.AttributeUsage(System.AttributeTargets.Property, AllowMultiple = false)]
     public class FileSizeAttribute : ContentfulValidationAttribute
     {
-        protected int? min = null;
+        internal int? _min;
+        internal int? _max;
         /// <summary>
         /// The minimum file size
         /// </summary>
         public int Min
         {
-            get
-            {
-                return this.min.GetValueOrDefault();
-            }
-            set
-            {
-                this.min = value;
-            }
+            get => _min ?? 0;
+            set => _min = value;
         }
 
-        protected int? max = null;
 
         /// <summary>
         /// The maximum file size
         /// </summary>
         public int Max
         {
-            get
-            {
-                return this.max.GetValueOrDefault();
-            }
-            set
-            {
-                this.max = value;
-            }
+            get => _max ?? 0;
+            set => _max = value;
         }
 
         /// <summary>
@@ -259,15 +204,7 @@ namespace Contentful.CodeFirst
         {
             get
             {
-                return new FileSizeValidator(min, max, MinUnit, MaxUnit, HelpText);
-            }
-        }
-
-        public override string[] ValidFieldTypes
-        {
-            get
-            {
-                return new[] { SystemFieldTypes.Link };
+                return new FileSizeValidator(_min, _max, MinUnit, MaxUnit, HelpText);
             }
         }
     }

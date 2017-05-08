@@ -75,7 +75,7 @@ namespace Contentful.CodeFirst
                 };
                 foreach (var prop in type.GetProperties())
                 {
-                    if (prop.GetCustomAttribute<IgnoreContentFieldAttribute>() != null || prop.GetSetMethod() == null)
+                    if (prop.GetSetMethod() == null || prop.GetCustomAttribute<IgnoreContentFieldAttribute>() != null)
                     {
                         continue;
                     }
@@ -101,12 +101,12 @@ namespace Contentful.CodeFirst
 
                         if (validation is SizeAttribute)
                         {
-                            field.Validations.Add(new SizeValidator((validation as SizeAttribute).Min, (validation as SizeAttribute).Max, validation.HelpText));
+                            field.Validations.Add(new SizeValidator((validation as SizeAttribute)._min, (validation as SizeAttribute)._max, validation.HelpText));
                         }
 
                         if (validation is RangeAttribute)
                         {
-                            field.Validations.Add(new RangeValidator((validation as RangeAttribute).Min, (validation as RangeAttribute).Max, validation.HelpText));
+                            field.Validations.Add(new RangeValidator((validation as RangeAttribute)._min, (validation as RangeAttribute)._max, validation.HelpText));
                         }
 
                         if (validation is LinkContentTypeAttribute)
