@@ -15,6 +15,7 @@ namespace Contentful.CodeFirst
         /// The helptext to be displayed for the validation message in Contentful.
         /// </summary>
         public string HelpText { get; set; }
+        public abstract IFieldValidator Validator { get; }
 
     }
 
@@ -38,9 +39,18 @@ namespace Contentful.CodeFirst
         /// <summary>
         /// The minimum number.
         /// </summary>
-        public int Min {
+        public int Min
+        {
             get => _min ?? 0;
             set => _min = value;
+        }
+
+        public override IFieldValidator Validator
+        {
+            get
+            {
+                return new SizeValidator(_min, _max, HelpText);
+            }
         }
     }
 
@@ -69,6 +79,14 @@ namespace Contentful.CodeFirst
             get => _min ?? 0;
             set => _min = value;
         }
+
+        public override IFieldValidator Validator
+        {
+            get
+            {
+                return new RangeValidator(_min, _max, HelpText);
+            }
+        }
     }
 
     /// <summary>
@@ -89,6 +107,14 @@ namespace Contentful.CodeFirst
         /// The ids of the content types to restrict the field for in Contentful.
         /// </summary>
         public string[] ContentTypeIds { get; set; }
+
+        public override IFieldValidator Validator
+        {
+            get
+            {
+                return new LinkContentTypeValidator(ContentTypeIds, HelpText);
+            }
+        }
     }
 
     /// <summary>
@@ -109,6 +135,14 @@ namespace Contentful.CodeFirst
         /// The values allowed for this field in Contentful.
         /// </summary>
         public string[] Values { get; set; }
+
+        public override IFieldValidator Validator
+        {
+            get
+            {
+                return new InValuesValidator(Values, HelpText);
+            }
+        }
     }
 
     /// <summary>
@@ -120,6 +154,14 @@ namespace Contentful.CodeFirst
         /// The mime type groups to restrict the field by in Contentful.
         /// </summary>
         public MimeTypeRestriction[] MimeTypes { get; set; }
+
+        public override IFieldValidator Validator
+        {
+            get
+            {
+                return new MimeTypeValidator(MimeTypes, HelpText);
+            }
+        }
     }
 
     /// <summary>
@@ -136,6 +178,14 @@ namespace Contentful.CodeFirst
         /// The flags of the expression.
         /// </summary>
         public string Flags { get; set; }
+
+        public override IFieldValidator Validator
+        {
+            get
+            {
+                return new RegexValidator(Expression, Flags, HelpText);
+            }
+        }
     }
 
     /// <summary>
@@ -143,6 +193,13 @@ namespace Contentful.CodeFirst
     /// </summary>
     public class UniqueAttribute : ContentfulValidationAttribute
     {
+        public override IFieldValidator Validator
+        {
+            get
+            {
+                return new UniqueValidator();
+            }
+        }
     }
 
 
@@ -161,6 +218,14 @@ namespace Contentful.CodeFirst
         /// The maximum date (yyyy-MM-dd)
         /// </summary>
         public string Max { get; set; }
+
+        public override IFieldValidator Validator
+        {
+            get
+            {
+                return new DateRangeValidator(Min, Max, HelpText);
+            }
+        }
     }
 
     /// <summary>
@@ -200,7 +265,7 @@ namespace Contentful.CodeFirst
         /// </summary>
         public string MaxUnit { get; set; }
 
-        public IFieldValidator Validator
+        public override IFieldValidator Validator
         {
             get
             {

@@ -96,53 +96,7 @@ namespace Contentful.CodeFirst
 
                     foreach (var validation in validationAttributes)
                     {
-                        if (!validation.ValidFieldTypes.Contains(field.Type))
-                            continue; 
-
-                        if (validation is SizeAttribute)
-                        {
-                            field.Validations.Add(new SizeValidator((validation as SizeAttribute)._min, (validation as SizeAttribute)._max, validation.HelpText));
-                        }
-
-                        if (validation is RangeAttribute)
-                        {
-                            field.Validations.Add(new RangeValidator((validation as RangeAttribute)._min, (validation as RangeAttribute)._max, validation.HelpText));
-                        }
-
-                        if (validation is LinkContentTypeAttribute)
-                        {
-                            field.Validations.Add(new LinkContentTypeValidator((validation as LinkContentTypeAttribute).ContentTypeIds, validation.HelpText));
-                        }
-
-                        if (validation is InValuesAttribute)
-                        {
-                            field.Validations.Add(new InValuesValidator((validation as InValuesAttribute).Values, validation.HelpText));
-                        }
-
-                        if (validation is MimeTypeAttribute)
-                        {
-                            field.Validations.Add(new MimeTypeValidator((validation as MimeTypeAttribute).MimeTypes, validation.HelpText));
-                        }
-
-                        if (validation is RegexAttribute)
-                        {
-                            field.Validations.Add(new RegexValidator((validation as RegexAttribute).Expression, (validation as RegexAttribute).Flags, validation.HelpText));
-                        }
-
-                        if(validation is UniqueAttribute)
-                        {
-                            field.Validations.Add(new UniqueValidator());
-                        }
-
-                        if (validation is DateRangeAttribute)
-                        {
-                            field.Validations.Add(new DateRangeValidator((validation as DateRangeAttribute).Min, (validation as DateRangeAttribute).Max, validation.HelpText));
-                        }
-
-                        if (validation is FileSizeAttribute)
-                        {
-                            field.Validations.Add((validation as FileSizeAttribute).Validator);
-                        }
+                        field.Validations.Add(validation.Validator);
                     }
 
                     if (typeof(ICollection).IsAssignableFrom(prop.PropertyType))
