@@ -96,6 +96,9 @@ namespace Contentful.CodeFirst
 
                     foreach (var validation in validationAttributes)
                     {
+                        if (!validation.ValidFieldTypes.Contains(field.Type))
+                            continue; 
+
                         if (validation is SizeAttribute)
                         {
                             field.Validations.Add(new SizeValidator((validation as SizeAttribute).Min, (validation as SizeAttribute).Max, validation.HelpText));
