@@ -51,7 +51,7 @@ namespace CodeFirst.Tests
                     Assert.Equal("something", f.SystemProperties.Id);
                     Assert.Equal("field1", f.DisplayField);
                     Assert.Equal("Some description", f.Description);
-                    Assert.Equal(4, f.Fields.Count);
+                    Assert.Equal(5, f.Fields.Count);
                 }
                 );
         }
@@ -120,7 +120,7 @@ namespace CodeFirst.Tests
             var first = contentTypes.First();
             //Assert
             Assert.Equal(1, contentTypes.Count());
-            Assert.Equal(4, first.Fields.Count);
+            Assert.Equal(5, first.Fields.Count);
             Assert.Equal(2, first.Fields[2].Validations.Count);
             Assert.IsType<SizeValidator>(first.Fields[2].Validations[0]);
             Assert.IsType<LinkContentTypeValidator>(first.Fields[2].Validations[1]);
@@ -129,6 +129,12 @@ namespace CodeFirst.Tests
             Assert.Equal("Person", first.Fields[2].Items.Type);
             Assert.Equal("Text", first.Fields[1].Type);
             Assert.Equal(4, first.Fields[1].Validations.Count);
+            Assert.Equal(1, first.Fields[4].Validations.Count);
+            Assert.IsType<DateRangeValidator>(first.Fields[4].Validations[0]);
+            Assert.Equal(2, first.Fields[3].Validations.Count);
+            Assert.IsType<FileSizeValidator>(first.Fields[3].Validations[1]);
+            Assert.Null((first.Fields[3].Validations[1] as FileSizeValidator).Max);
+            Assert.Equal(1048576, (first.Fields[3].Validations[1] as FileSizeValidator).Min);
 
             Assert.Collection(first.Fields[1].Validations,
                 (f) => { Assert.IsType<UniqueValidator>(f); },

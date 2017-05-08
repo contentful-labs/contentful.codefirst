@@ -26,10 +26,14 @@ namespace CodeFirst.Tests.TestClasses
         public List<Person> Field3 { get; set; }
 
         [MimeType(MimeTypes = new MimeTypeRestriction[] { MimeTypeRestriction.Image })]
+        [FileSize(Min = 1, MinUnit = SystemFileSizeUnits.MB)]
         public Asset Asset { get; set; }
 
         [IgnoreContentField]
         public int IgnoredProp { get; set; }
+
+        [DateRange(Min = "2017-01-01")]
+        public DateTime Field4 { get; set; }
     }
 
     [ContentType]

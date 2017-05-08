@@ -1,4 +1,5 @@
 ﻿using Contentful.Core.Search;
+using Contentful.Core.Models.Management;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -120,5 +121,81 @@ namespace Contentful.CodeFirst
     /// </summary>
     public class UniqueAttribute : ContentfulValidationAttribute
     {
+    }
+
+
+    /// <summary>
+    /// Specifies that this property should have a date range validation in Contentful.
+    /// </summary>
+    [System.AttributeUsage(System.AttributeTargets.Property, AllowMultiple = false)]
+    public class DateRangeAttribute : ContentfulValidationAttribute
+    {
+        /// <summary>
+        /// The minimum date (yyyy-MM-dd)
+        /// </summary>
+        public string Min { get; set; }
+
+        /// <summary>
+        /// The maximum date (yyyy-MM-dd)
+        /// </summary>
+        public string Max { get; set; }
+    }
+
+    /// <summary>
+    /// Specifies that this property should have a file size validation in Contentful.
+    /// </summary>
+    [System.AttributeUsage(System.AttributeTargets.Property, AllowMultiple = false)]
+    public class FileSizeAttribute : ContentfulValidationAttribute
+    {
+        protected int? min = null;
+        /// <summary>
+        /// The minimum file size
+        /// </summary>
+        public int Min
+        {
+            get
+            {
+                return this.min.GetValueOrDefault();
+            }
+            set
+            {
+                this.min = value;
+            }
+        }
+
+        protected int? max = null;
+
+        /// <summary>
+        /// The maximum file size
+        /// </summary>
+        public int Max
+        {
+            get
+            {
+                return this.max.GetValueOrDefault();
+            }
+            set
+            {
+                this.max = value;
+            }
+        }
+
+        /// <summary>
+        /// The unit to use for minimum file size. See <see cref="Contentful.Core.Models.Management.SystemFileSizeUnits"/> for a list of constants that can be used. 
+        /// </summary>
+        public string MinUnit { get; set; }
+
+        /// <summary>
+        /// The unit to use for maximum file size. See <see cref="Contentful.Core.Models.Management.SystemFileSizeUnits"/> for a list of constants that can be used. 
+        /// </summary>
+        public string MaxUnit { get; set; }
+
+        public IFieldValidator Validator
+        {
+            get
+            {
+                return new FileSizeValidator(min, max, MinUnit, MaxUnit, HelpText);
+            }
+        }
     }
 }

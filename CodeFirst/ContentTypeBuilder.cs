@@ -75,7 +75,7 @@ namespace Contentful.CodeFirst
                 };
                 foreach (var prop in type.GetProperties())
                 {
-                    if (prop.GetCustomAttribute<IgnoreContentFieldAttribute>() != null)
+                    if (prop.GetCustomAttribute<IgnoreContentFieldAttribute>() != null || prop.GetSetMethod() == null)
                     {
                         continue;
                     }
@@ -129,6 +129,16 @@ namespace Contentful.CodeFirst
                         if(validation is UniqueAttribute)
                         {
                             field.Validations.Add(new UniqueValidator());
+                        }
+
+                        if (validation is DateRangeAttribute)
+                        {
+                            field.Validations.Add(new DateRangeValidator((validation as DateRangeAttribute).Min, (validation as DateRangeAttribute).Max, validation.HelpText));
+                        }
+
+                        if (validation is FileSizeAttribute)
+                        {
+                            field.Validations.Add((validation as FileSizeAttribute).Validator);
                         }
                     }
 
