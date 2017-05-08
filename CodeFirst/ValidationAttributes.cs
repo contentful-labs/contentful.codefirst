@@ -273,4 +273,60 @@ namespace Contentful.CodeFirst
             }
         }
     }
+
+    /// <summary>
+    /// Specifies that this property should have an image size validation in Contentful.
+	/// </summary>
+	[System.AttributeUsage(System.AttributeTargets.Property, AllowMultiple = false)]
+    public class ImageSizeAttribute : ContentfulValidationAttribute
+    {
+        internal int? _minWidth;
+        internal int? _maxWidth;
+        internal int? _minHeight;
+        internal int? _maxHeight;
+
+        /// <summary>
+        /// The minimum image width
+        /// </summary>
+        public int MinWidth
+        {
+            get => _minWidth ?? 0;
+            set => _minWidth = value;
+        }
+
+        /// <summary>
+        /// The maximum image width
+        /// </summary>
+        public int MaxWidth
+        {
+            get => _maxWidth ?? 0;
+            set => _maxWidth = value;
+        }
+
+        /// <summary>
+        /// The minimum image height
+        /// </summary>
+        public int MinHeight
+        {
+            get => _minHeight ?? 0;
+            set => _minHeight = value;
+        }
+
+        /// <summary>
+        /// The maximum image height
+        /// </summary>
+        public int MaxHeight
+        {
+            get => _maxHeight ?? 0;
+            set => _maxHeight = value;
+        }
+
+        public override IFieldValidator Validator
+        {
+            get
+            {
+                return new ImageSizeValidator(_minWidth, _maxWidth, _minHeight, _maxHeight, HelpText);
+            }
+        }
+    }
 }

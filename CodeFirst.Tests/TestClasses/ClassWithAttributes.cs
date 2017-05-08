@@ -27,6 +27,7 @@ namespace CodeFirst.Tests.TestClasses
 
         [MimeType(MimeTypes = new MimeTypeRestriction[] { MimeTypeRestriction.Image })]
         [FileSize(Min = 1, MinUnit = SystemFileSizeUnits.MB)]
+        [ImageSize(MinWidth = 200, MinHeight = 200)]
         public Asset Asset { get; set; }
 
         [IgnoreContentField]
