@@ -135,6 +135,11 @@ namespace Contentful.CodeFirst
                         {
                             field.Validations.Add(new DateRangeValidator((validation as DateRangeAttribute).Min, (validation as DateRangeAttribute).Max, validation.HelpText));
                         }
+
+                        if (validation is FileSizeAttribute)
+                        {
+                            field.Validations.Add((validation as FileSizeAttribute).Validator);
+                        }
                     }
 
                     if (typeof(ICollection).IsAssignableFrom(prop.PropertyType))

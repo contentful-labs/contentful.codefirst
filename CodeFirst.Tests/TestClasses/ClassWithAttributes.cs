@@ -26,6 +26,7 @@ namespace CodeFirst.Tests.TestClasses
         public List<Person> Field3 { get; set; }
 
         [MimeType(MimeTypes = new MimeTypeRestriction[] { MimeTypeRestriction.Image })]
+        [FileSize(Min = 1, MinUnit = SystemFileSizeUnits.MB)]
         public Asset Asset { get; set; }
 
         [IgnoreContentField]
