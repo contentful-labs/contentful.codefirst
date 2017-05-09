@@ -121,9 +121,10 @@ namespace CodeFirst.Tests
             //Assert
             Assert.Equal(1, contentTypes.Count());
             Assert.Equal(5, first.Fields.Count);
-            Assert.Equal(2, first.Fields[2].Validations.Count);
+            Assert.Equal(1, first.Fields[2].Validations.Count);
+            Assert.Equal(1, first.Fields[2].Items.Validations.Count);
             Assert.IsType<SizeValidator>(first.Fields[2].Validations[0]);
-            Assert.IsType<LinkContentTypeValidator>(first.Fields[2].Validations[1]);
+            Assert.IsType<LinkContentTypeValidator>(first.Fields[2].Items.Validations[0]);
             Assert.Equal("Array", first.Fields[2].Type);
             Assert.Equal("Entry", first.Fields[2].Items.LinkType);
             Assert.Equal("Person", first.Fields[2].Items.Type);

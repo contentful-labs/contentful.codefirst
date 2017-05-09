@@ -93,20 +93,31 @@ namespace Contentful.CodeFirst
                         Validations = new List<IFieldValidator>()
                     };
                     var validationAttributes = prop.GetCustomAttributes<ContentfulValidationAttribute>();
+                    var isCollectionProperty = typeof(ICollection).IsAssignableFrom(prop.PropertyType);
 
-                    foreach (var validation in validationAttributes)
-                    {
-                        field.Validations.Add(validation.Validator);
-                    }
-
-                    if (typeof(ICollection).IsAssignableFrom(prop.PropertyType))
+                    if (isCollectionProperty)
                     {
                         field.Items = new Schema()
                         {
                             LinkType = fieldAttribute.ItemsLinkType,
-                            Type = fieldAttribute.ItemsType
+                            Type = fieldAttribute.ItemsType,
+                            Validations = new List<IFieldValidator>()
                         };
                     }
+
+                    foreach (var validation in validationAttributes)
+                    {
+                        if (isCollectionProperty && validation is SizeAttribute == false)
+                        {
+                            field.Items.Validations.Add(validation.Validator);
+                        }
+                        else
+                        {
+                            field.Validations.Add(validation.Validator);
+                        }
+                    }
+
+                    
 
                     contentType.Fields.Add(field);
                 }
