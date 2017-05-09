@@ -131,10 +131,15 @@ namespace CodeFirst.Tests
             Assert.Equal(4, first.Fields[1].Validations.Count);
             Assert.Equal(1, first.Fields[4].Validations.Count);
             Assert.IsType<DateRangeValidator>(first.Fields[4].Validations[0]);
-            Assert.Equal(2, first.Fields[3].Validations.Count);
+            Assert.Equal(3, first.Fields[3].Validations.Count);
             Assert.IsType<FileSizeValidator>(first.Fields[3].Validations[1]);
             Assert.Null((first.Fields[3].Validations[1] as FileSizeValidator).Max);
             Assert.Equal(1048576, (first.Fields[3].Validations[1] as FileSizeValidator).Min);
+            Assert.IsType<ImageSizeValidator>(first.Fields[3].Validations[2]);
+            Assert.Null((first.Fields[3].Validations[2] as ImageSizeValidator).MaxWidth);
+            Assert.Null((first.Fields[3].Validations[2] as ImageSizeValidator).MaxHeight);
+            Assert.Equal(200, (first.Fields[3].Validations[2] as ImageSizeValidator).MinWidth);
+            Assert.Equal(200, (first.Fields[3].Validations[2] as ImageSizeValidator).MinWidth);
 
             Assert.Collection(first.Fields[1].Validations,
                 (f) => { Assert.IsType<UniqueValidator>(f); },

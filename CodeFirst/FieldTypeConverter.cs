@@ -55,6 +55,11 @@ namespace Contentful.CodeFirst
                 return SystemFieldTypes.Array;
             }
 
+            if (type == typeof(Location))
+            {
+                return SystemFieldTypes.Location;
+            }
+
             return SystemFieldTypes.Object;
         }
     }
