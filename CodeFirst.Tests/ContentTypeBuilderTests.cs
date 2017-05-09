@@ -51,7 +51,7 @@ namespace CodeFirst.Tests
                     Assert.Equal("something", f.SystemProperties.Id);
                     Assert.Equal("field1", f.DisplayField);
                     Assert.Equal("Some description", f.Description);
-                    Assert.Equal(5, f.Fields.Count);
+                    Assert.Equal(6, f.Fields.Count);
                 }
                 );
         }
@@ -120,14 +120,15 @@ namespace CodeFirst.Tests
             var first = contentTypes.First();
             //Assert
             Assert.Equal(1, contentTypes.Count());
-            Assert.Equal(5, first.Fields.Count);
+            Assert.Equal(6, first.Fields.Count);
             Assert.Equal(1, first.Fields[2].Validations.Count);
             Assert.Equal(1, first.Fields[2].Items.Validations.Count);
             Assert.IsType<SizeValidator>(first.Fields[2].Validations[0]);
             Assert.IsType<LinkContentTypeValidator>(first.Fields[2].Items.Validations[0]);
             Assert.Equal("Array", first.Fields[2].Type);
             Assert.Equal("Entry", first.Fields[2].Items.LinkType);
-            Assert.Equal("Person", first.Fields[2].Items.Type);
+            Assert.Equal("Link", first.Fields[2].Items.Type);
+            Assert.Equal("Person", string.Join(",", (first.Fields[2].Items.Validations[0] as LinkContentTypeValidator).ContentTypeIds));
             Assert.Equal("Text", first.Fields[1].Type);
             Assert.Equal(4, first.Fields[1].Validations.Count);
             Assert.Equal(1, first.Fields[4].Validations.Count);
@@ -141,6 +142,13 @@ namespace CodeFirst.Tests
             Assert.Null((first.Fields[3].Validations[2] as ImageSizeValidator).MaxHeight);
             Assert.Equal(200, (first.Fields[3].Validations[2] as ImageSizeValidator).MinWidth);
             Assert.Equal(200, (first.Fields[3].Validations[2] as ImageSizeValidator).MinWidth);
+            Assert.Equal(0, first.Fields[5].Validations.Count);
+            Assert.Equal(1, first.Fields[5].Items.Validations.Count);
+            Assert.IsType<LinkContentTypeValidator>(first.Fields[5].Items.Validations[0]);
+            Assert.Equal("Array", first.Fields[5].Type);
+            Assert.Equal("Entry", first.Fields[5].Items.LinkType);
+            Assert.Equal("Link", first.Fields[5].Items.Type);
+            Assert.Equal("Person", string.Join(",", (first.Fields[5].Items.Validations[0] as LinkContentTypeValidator).ContentTypeIds));
 
             Assert.Collection(first.Fields[1].Validations,
                 (f) => { Assert.IsType<UniqueValidator>(f); },

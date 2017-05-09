@@ -20,7 +20,7 @@ namespace CodeFirst.Tests.TestClasses
         [Regex(Expression = "ss", Flags = "gi")]
         public string Field2 { get; set; }
 
-        [ContentField(Id="collection", ItemsLinkType="Entry", ItemsType = "Person")]
+        [ContentField(Id="collection", ItemsLinkType="Entry", ItemsType = "Link")]
         [Size(HelpText = "Too many or too few!", Max = 5, Min = 2)]
         [LinkContentType("Person")]
         public List<Person> Field3 { get; set; }
@@ -35,6 +35,10 @@ namespace CodeFirst.Tests.TestClasses
 
         [DateRange(Min = "2017-01-01")]
         public DateTime Field4 { get; set; }
+
+        [ContentField(Id = "collection")]
+        [LinkContentType("Person")]
+        public List<Person> Field5 { get; set; }
     }
 
     [ContentType]

@@ -89,7 +89,7 @@ namespace Contentful.CodeFirst
                         Disabled = fieldAttribute.Disabled,
                         Omitted = fieldAttribute.Omitted,
                         Required = fieldAttribute.Required,
-                        LinkType = fieldAttribute.LinkType,
+                        LinkType = fieldAttribute.LinkType ?? FieldTypeConverter.ConvertLinkType(prop.PropertyType),
                         Validations = new List<IFieldValidator>()
                     };
                     var validationAttributes = prop.GetCustomAttributes<ContentfulValidationAttribute>();
@@ -99,8 +99,8 @@ namespace Contentful.CodeFirst
                     {
                         field.Items = new Schema()
                         {
-                            LinkType = fieldAttribute.ItemsLinkType,
-                            Type = fieldAttribute.ItemsType,
+                            LinkType = fieldAttribute.ItemsLinkType ?? FieldTypeConverter.ConvertItemLinkType(prop.PropertyType),
+                            Type = fieldAttribute.ItemsType ?? FieldTypeConverter.ConvertItemType(prop.PropertyType),
                             Validations = new List<IFieldValidator>()
                         };
                     }
