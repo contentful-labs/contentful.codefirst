@@ -88,6 +88,7 @@ namespace Contentful.CodeFirst
                         Type = fieldAttribute.Type ?? FieldTypeConverter.Convert(prop.PropertyType),
                         Disabled = fieldAttribute.Disabled,
                         Omitted = fieldAttribute.Omitted,
+                        Localized = fieldAttribute.Localized,
                         Required = fieldAttribute.Required,
                         LinkType = fieldAttribute.LinkType ?? FieldTypeConverter.ConvertLinkType(prop.PropertyType),
                         Validations = new List<IFieldValidator>()
