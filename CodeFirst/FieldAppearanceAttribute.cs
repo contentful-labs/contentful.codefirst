@@ -42,7 +42,7 @@ namespace Contentful.CodeFirst
         /// Returns the EditorInterfaceControl for this attribute.
         /// </summary>
         public virtual EditorInterfaceControl EditorInterfaceControl => new EditorInterfaceControl() { WidgetId = ExtensionId, Settings = new EditorInterfaceControlSettings { HelpText = HelpText } };
-
+    }
         /// <summary>
         /// Attribute specifying a field should have the boolean appearance.
         /// </summary>
@@ -135,5 +135,4 @@ namespace Contentful.CodeFirst
             /// </summary>
             public override EditorInterfaceControl EditorInterfaceControl => new EditorInterfaceControl() { WidgetId = ExtensionId, Settings = new DatePickerEditorInterfaceControlSettings { DateFormat = DateFormat, ClockFormat = ClockFormat, HelpText = HelpText } };
         }
-    }
 }

@@ -190,7 +190,7 @@ namespace Contentful.CodeFirst
                         var index = currentInterface.Controls.FindIndex(c => c.FieldId == control.FieldId);
                         currentInterface.Controls[index] = control;
                     }
-                    await managementClient.UpdateEditorInterfaceAsync(currentInterface, createdContentType.SystemProperties.Id, createdContentType.SystemProperties.Version.Value);
+                    await managementClient.UpdateEditorInterfaceAsync(currentInterface, createdContentType.SystemProperties.Id, currentInterface.SystemProperties.Version.Value);
                 }
             }
 
