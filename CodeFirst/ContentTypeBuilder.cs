@@ -44,12 +44,17 @@ namespace Contentful.CodeFirst
         /// </summary>
         /// <param name="types">The types to be transformed into content types. Could be chained to the output of the <see cref="LoadTypes(Assembly)"/> method.</param>
         /// <returns>An enumerable of <see cref="ContentType"/> ready to be created/updated in Contentful.</returns>
-        public static IEnumerable<ContentType> InitializeContentTypes(IEnumerable<Type> types)
+        public static IEnumerable<ContentTypeInformation> InitializeContentTypes(IEnumerable<Type> types)
         {
             types = types.OrderBy(c => c.GetTypeInfo().GetCustomAttribute<ContentTypeAttribute>()?.Order ?? 0);
 
             foreach (var type in types)
             {
+                var contentTypeInfo = new ContentTypeInformation
+                {
+                    InterfaceControls = new List<EditorInterfaceControl>()
+                };
+
                 var attribute = type.GetTypeInfo().GetCustomAttribute<ContentTypeAttribute>();
 
                 var id = attribute.Id ?? type.Name;
@@ -93,6 +98,7 @@ namespace Contentful.CodeFirst
                         Validations = new List<IFieldValidator>()
                     };
                     var validationAttributes = prop.GetCustomAttributes<ContentfulValidationAttribute>();
+                    var appearanceAttribute = prop.GetCustomAttribute<FieldAppearanceAttribute>();
                     var isCollectionProperty = typeof(ICollection).IsAssignableFrom(prop.PropertyType);
 
                     if (isCollectionProperty)
@@ -117,12 +123,19 @@ namespace Contentful.CodeFirst
                         }
                     }
 
-                    
+                    if(appearanceAttribute != null)
+                    {
+                        var appearance = appearanceAttribute.EditorInterfaceControl;
+                        appearance.FieldId = field.Id;
+                        contentTypeInfo.InterfaceControls.Add(appearance);
+                    }
 
                     contentType.Fields.Add(field);
                 }
 
-                yield return contentType;
+                contentTypeInfo.ContentType = contentType;
+
+                yield return contentTypeInfo;
             }
         }
 
@@ -133,7 +146,7 @@ namespace Contentful.CodeFirst
         /// <param name="configuration">The configuration for the creation process.</param>
         /// <param name="client">The optional client to use for creation.</param>
         /// <returns>A list of created or updated content types.</returns>
-        public static async Task<List<ContentType>> CreateContentTypes(IEnumerable<ContentType> contentTypes, ContentfulCodeFirstConfiguration configuration, IContentfulManagementClient client = null)
+        public static async Task<List<ContentType>> CreateContentTypes(IEnumerable<ContentTypeInformation> contentTypes, ContentfulCodeFirstConfiguration configuration, IContentfulManagementClient client = null)
         {
             var managementClient = client;
 
@@ -150,15 +163,15 @@ namespace Contentful.CodeFirst
             if (configuration.ForceUpdateContentTypes == false)
             {
                 //remove any pre-existing content types from the list to be created.
-                contentTypes = contentTypes.Where(c => !existingContentTypes.Any(x => x.SystemProperties.Id == c.SystemProperties.Id));
+                contentTypes = contentTypes.Where(c => !existingContentTypes.Any(x => x.SystemProperties.Id == c.ContentType.SystemProperties.Id));
             }
 
-            foreach (var contentType in contentTypes)
+            foreach (var contentTypeInfo in contentTypes)
             {
                 //make sure to add correct version for existing content types
-                contentType.SystemProperties.Version = existingContentTypes.FirstOrDefault(c => c.SystemProperties.Id == contentType.SystemProperties.Id)?.SystemProperties.Version;
+                contentTypeInfo.ContentType.SystemProperties.Version = existingContentTypes.FirstOrDefault(c => c.SystemProperties.Id == contentTypeInfo.ContentType.SystemProperties.Id)?.SystemProperties.Version;
 
-                var createdContentType = await managementClient.CreateOrUpdateContentTypeAsync(contentType, version: contentType.SystemProperties.Version);
+                var createdContentType = await managementClient.CreateOrUpdateContentTypeAsync(contentTypeInfo.ContentType, version: contentTypeInfo.ContentType.SystemProperties.Version);
 
                 if (configuration.PublishAutomatically)
                 {
@@ -166,6 +179,19 @@ namespace Contentful.CodeFirst
                 }
 
                 createdTypes.Add(createdContentType);
+
+                if (contentTypeInfo.InterfaceControls.Any())
+                {
+                    var currentInterface = await managementClient.GetEditorInterfaceAsync(createdContentType.SystemProperties.Id);
+
+
+                    foreach(var control in contentTypeInfo.InterfaceControls)
+                    {
+                        var index = currentInterface.Controls.FindIndex(c => c.FieldId == control.FieldId);
+                        currentInterface.Controls[index] = control;
+                    }
+                    await managementClient.UpdateEditorInterfaceAsync(currentInterface, createdContentType.SystemProperties.Id, createdContentType.SystemProperties.Version.Value);
+                }
             }
 
             return createdTypes;

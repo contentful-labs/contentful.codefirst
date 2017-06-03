@@ -45,13 +45,7 @@ namespace Contentful.CodeFirst
             set => _min = value;
         }
 
-        public override IFieldValidator Validator
-        {
-            get
-            {
-                return new SizeValidator(_min, _max, HelpText);
-            }
-        }
+        public override IFieldValidator Validator => new SizeValidator(_min, _max, HelpText);
     }
 
     /// <summary>
@@ -80,13 +74,7 @@ namespace Contentful.CodeFirst
             set => _min = value;
         }
 
-        public override IFieldValidator Validator
-        {
-            get
-            {
-                return new RangeValidator(_min, _max, HelpText);
-            }
-        }
+        public override IFieldValidator Validator => new RangeValidator(_min, _max, HelpText);
     }
 
     /// <summary>
@@ -108,13 +96,7 @@ namespace Contentful.CodeFirst
         /// </summary>
         public string[] ContentTypeIds { get; set; }
 
-        public override IFieldValidator Validator
-        {
-            get
-            {
-                return new LinkContentTypeValidator(ContentTypeIds, HelpText);
-            }
-        }
+        public override IFieldValidator Validator => new LinkContentTypeValidator(ContentTypeIds, HelpText);
     }
 
     /// <summary>
@@ -136,13 +118,7 @@ namespace Contentful.CodeFirst
         /// </summary>
         public string[] Values { get; set; }
 
-        public override IFieldValidator Validator
-        {
-            get
-            {
-                return new InValuesValidator(Values, HelpText);
-            }
-        }
+        public override IFieldValidator Validator => new InValuesValidator(Values, HelpText);
     }
 
     /// <summary>
@@ -155,13 +131,7 @@ namespace Contentful.CodeFirst
         /// </summary>
         public MimeTypeRestriction[] MimeTypes { get; set; }
 
-        public override IFieldValidator Validator
-        {
-            get
-            {
-                return new MimeTypeValidator(MimeTypes, HelpText);
-            }
-        }
+        public override IFieldValidator Validator => new MimeTypeValidator(MimeTypes, HelpText);
     }
 
     /// <summary>
@@ -179,13 +149,7 @@ namespace Contentful.CodeFirst
         /// </summary>
         public string Flags { get; set; }
 
-        public override IFieldValidator Validator
-        {
-            get
-            {
-                return new RegexValidator(Expression, Flags, HelpText);
-            }
-        }
+        public override IFieldValidator Validator => new RegexValidator(Expression, Flags, HelpText);
     }
 
     /// <summary>
@@ -193,13 +157,7 @@ namespace Contentful.CodeFirst
     /// </summary>
     public class UniqueAttribute : ContentfulValidationAttribute
     {
-        public override IFieldValidator Validator
-        {
-            get
-            {
-                return new UniqueValidator();
-            }
-        }
+        public override IFieldValidator Validator => new UniqueValidator();
     }
 
 
@@ -219,13 +177,7 @@ namespace Contentful.CodeFirst
         /// </summary>
         public string Max { get; set; }
 
-        public override IFieldValidator Validator
-        {
-            get
-            {
-                return new DateRangeValidator(Min, Max, HelpText);
-            }
-        }
+        public override IFieldValidator Validator => new DateRangeValidator(Min, Max, HelpText);
     }
 
     /// <summary>
@@ -265,13 +217,7 @@ namespace Contentful.CodeFirst
         /// </summary>
         public string MaxUnit { get; set; }
 
-        public override IFieldValidator Validator
-        {
-            get
-            {
-                return new FileSizeValidator(_min, _max, MinUnit, MaxUnit, HelpText);
-            }
-        }
+        public override IFieldValidator Validator => new FileSizeValidator(_min, _max, MinUnit, MaxUnit, HelpText);
     }
 
     /// <summary>
@@ -321,12 +267,6 @@ namespace Contentful.CodeFirst
             set => _maxHeight = value;
         }
 
-        public override IFieldValidator Validator
-        {
-            get
-            {
-                return new ImageSizeValidator(_minWidth, _maxWidth, _minHeight, _maxHeight, HelpText);
-            }
-        }
+        public override IFieldValidator Validator => new ImageSizeValidator(_minWidth, _maxWidth, _minHeight, _maxHeight, HelpText);
     }
 }

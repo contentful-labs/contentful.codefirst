@@ -5,6 +5,7 @@ using Contentful.Core.Search;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static Contentful.CodeFirst.FieldAppearanceAttribute;
 
 namespace CodeFirst.Tests.TestClasses
 {
@@ -12,12 +13,14 @@ namespace CodeFirst.Tests.TestClasses
     public class ClassWithAttributes
     {
         [ContentField(Id = "fieldOne", Name = "First field", Omitted = true, Disabled = true, Localized = true, Required = true, Type = SystemFieldTypes.Symbol)]
+        [RatingAppearance(7, "This film gets 5 out of 7 stars!")]
         public int Field1 { get; set; }
 
         [Unique]
         [Range(Max = 10, Min = 2)]
         [InValues(Values = new [] { "banana", "pear", "tommy gun" })]
         [Regex(Expression = "ss", Flags = "gi")]
+        [FieldAppearance(SystemWidgetIds.SingleLine, "Help me!")]
         public string Field2 { get; set; }
 
         [ContentField(Id="collection", ItemsLinkType="Entry", ItemsType = "Link")]
