@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <Version>0.0.5-beta</Version>
@@ -12,17 +11,13 @@
     <Authors>Contentful</Authors>
     <Description>A helper package to the Contentful.csharp package to allow for automatical generation of content types from csharp classes.</Description>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile></DocumentationFile>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\netcoreapp1.1\.xml</DocumentationFile>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="contentful.csharp" Version="0.13.0-beta" />
+    <PackageReference Include="contentful.csharp" Version="0.13.8-beta" />
   </ItemGroup>
-
 </Project>

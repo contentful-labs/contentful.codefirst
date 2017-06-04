@@ -64,21 +64,29 @@ namespace Contentful.CodeFirst
             return SystemFieldTypes.Object;
         }
 
+        /// <summary>
+        /// Converts a type to a LinkType.
+        /// </summary>
+        /// <param name="type">The type to convert.</param>
+        /// <returns>The linktype or null.</returns>
         public static string ConvertLinkType(Type type)
         {
             if (IsAsset(type))
             {
-                // TODO: use SystemLinkTypes.Asset when available
-                return "Asset";
+                return SystemLinkTypes.Asset;
             }
             else if (IsEntry(type))
             {
-                // TODO: use SystemLinkTypes.Entry when available
-                return "Entry";
+                return SystemLinkTypes.Entry;
             }
             return null;
         }
 
+        /// <summary>
+        /// Converts a type to an itemtype for a Contentful array.
+        /// </summary>
+        /// <param name="type">The type to convert.</param>
+        /// <returns>An itemtype or null.</returns>
         public static string ConvertItemType(Type type)
         {
             Type itemType = GetItemType(type);
@@ -95,6 +103,11 @@ namespace Contentful.CodeFirst
             return null;
         }
 
+        /// <summary>
+        /// Converts a type to an item link type.
+        /// </summary>
+        /// <param name="type">The type to convert.</param>
+        /// <returns>The item link type or null.</returns>
         public static string ConvertItemLinkType(Type type)
         {
             Type itemType = GetItemType(type);
@@ -105,16 +118,31 @@ namespace Contentful.CodeFirst
             return null;
         }
 
+        /// <summary>
+        /// Returns whether a type is an asset or not.
+        /// </summary>
+        /// <param name="type">The type to evaluate.</param>
+        /// <returns>True if the type is an asset, else false.</returns>
         public static bool IsAsset(Type type)
         {
             return type == typeof(Asset) || type == typeof(ManagementAsset);
         }
 
+        /// <summary>
+        /// Returns whether a type is an Entry or not.
+        /// </summary>
+        /// <param name="type">The type to evaluate.</param>
+        /// <returns>True if the type is an Entry, else false.</returns>
         public static bool IsEntry(Type type)
         {
             return (type.IsConstructedGenericType && type.GetGenericTypeDefinition() == typeof(Entry<>)) || type.GetTypeInfo().IsDefined(typeof(ContentTypeAttribute));
         }
 
+        /// <summary>
+        /// Gets the item type for a type.
+        /// </summary>
+        /// <param name="type">The type to get an item type for.</param>
+        /// <returns>The item type or null.</returns>
         public static Type GetItemType(Type type)
         {
             if (typeof(ICollection).IsAssignableFrom(type))

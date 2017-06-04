@@ -15,6 +15,10 @@ namespace Contentful.CodeFirst
         /// The helptext to be displayed for the validation message in Contentful.
         /// </summary>
         public string HelpText { get; set; }
+
+        /// <summary>
+        /// Returns the validator for this validation attribute.
+        /// </summary>
         public abstract IFieldValidator Validator { get; }
 
     }
@@ -45,6 +49,9 @@ namespace Contentful.CodeFirst
             set => _min = value;
         }
 
+        /// <summary>
+        /// Returns the validator for this validation attribute.
+        /// </summary>
         public override IFieldValidator Validator => new SizeValidator(_min, _max, HelpText);
     }
 
@@ -74,6 +81,9 @@ namespace Contentful.CodeFirst
             set => _min = value;
         }
 
+        /// <summary>
+        /// Returns the validator for this validation attribute.
+        /// </summary>
         public override IFieldValidator Validator => new RangeValidator(_min, _max, HelpText);
     }
 
@@ -96,6 +106,9 @@ namespace Contentful.CodeFirst
         /// </summary>
         public string[] ContentTypeIds { get; set; }
 
+        /// <summary>
+        /// Returns the validator for this validation attribute.
+        /// </summary>
         public override IFieldValidator Validator => new LinkContentTypeValidator(ContentTypeIds, HelpText);
     }
 
@@ -118,6 +131,9 @@ namespace Contentful.CodeFirst
         /// </summary>
         public string[] Values { get; set; }
 
+        /// <summary>
+        /// Returns the validator for this validation attribute.
+        /// </summary>
         public override IFieldValidator Validator => new InValuesValidator(Values, HelpText);
     }
 
@@ -131,6 +147,9 @@ namespace Contentful.CodeFirst
         /// </summary>
         public MimeTypeRestriction[] MimeTypes { get; set; }
 
+        /// <summary>
+        /// Returns the validator for this validation attribute.
+        /// </summary>
         public override IFieldValidator Validator => new MimeTypeValidator(MimeTypes, HelpText);
     }
 
@@ -149,6 +168,9 @@ namespace Contentful.CodeFirst
         /// </summary>
         public string Flags { get; set; }
 
+        /// <summary>
+        /// Returns the validator for this validation attribute.
+        /// </summary>
         public override IFieldValidator Validator => new RegexValidator(Expression, Flags, HelpText);
     }
 
@@ -157,6 +179,9 @@ namespace Contentful.CodeFirst
     /// </summary>
     public class UniqueAttribute : ContentfulValidationAttribute
     {
+        /// <summary>
+        /// Returns the validator for this validation attribute.
+        /// </summary>
         public override IFieldValidator Validator => new UniqueValidator();
     }
 
@@ -177,6 +202,9 @@ namespace Contentful.CodeFirst
         /// </summary>
         public string Max { get; set; }
 
+        /// <summary>
+        /// Returns the validator for this validation attribute.
+        /// </summary>
         public override IFieldValidator Validator => new DateRangeValidator(Min, Max, HelpText);
     }
 
@@ -217,6 +245,9 @@ namespace Contentful.CodeFirst
         /// </summary>
         public string MaxUnit { get; set; }
 
+        /// <summary>
+        /// Returns the validator for this validation attribute.
+        /// </summary>
         public override IFieldValidator Validator => new FileSizeValidator(_min, _max, MinUnit, MaxUnit, HelpText);
     }
 
@@ -267,6 +298,9 @@ namespace Contentful.CodeFirst
             set => _maxHeight = value;
         }
 
+        /// <summary>
+        /// Returns the validator for this validation attribute.
+        /// </summary>
         public override IFieldValidator Validator => new ImageSizeValidator(_minWidth, _maxWidth, _minHeight, _maxHeight, HelpText);
     }
 }
