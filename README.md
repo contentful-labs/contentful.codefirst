@@ -153,3 +153,45 @@ public class BlogPost {
 ```
 
 Note how the `Type` property of the `ContentField` attribute can be omitted as the type `Array` is inferred from the `List` type.
+
+## Appearance of fields
+
+If you wish to control how a field appears in the Contentful web app you can use the `FieldAppearance` attribute.
+
+```csharp
+[ContentType]
+public class BlogPost {
+  ...omitted for brevity.
+  [FieldAppearance(extensionId: SystemWidgetIds.SingleLine, helpText: "The title of the blog post")]
+  public string Title { get; set; }
+}
+```
+
+There are specialized appearance attributes for boolean, ratings and datepicker fields respectively.
+
+```csharp
+[ContentType]
+public class BlogPost {
+  ...omitted for brevity.
+  [BooleanAppearance(trueLabel: "Yes", falseLabel: "No", helpText: "Is this blog post published or not?")]
+  public bool Published { get; set; }
+}
+```
+
+```csharp
+[ContentType]
+public class Movie {
+  [RatingAppearance(7, "This film gets 5 out of 7 stars!")]
+  public int Rating { get; set; }
+}
+```
+
+```csharp
+[ContentType]
+public class Movie {
+  [DatePickerAppearance(dateFormat: EditorInterfaceDateFormat.timeZ, clockFormat: "am", helpText: "The release date.")]
+  public DateTime ReleaseDate { get; set; }
+}
+```
+
+You can easily create your own appearances by creating an attribute that inherits from `FieldAppearanceAttribute`.
