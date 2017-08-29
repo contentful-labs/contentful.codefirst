@@ -181,7 +181,7 @@ namespace Contentful.CodeFirst
 
                 createdTypes.Add(createdContentType);
 
-                if (contentTypeInfo.InterfaceControls.Any())
+                if (contentTypeInfo.InterfaceControls != null && contentTypeInfo.InterfaceControls.Any())
                 {
                     var currentInterface = await managementClient.GetEditorInterfaceAsync(createdContentType.SystemProperties.Id);
 
