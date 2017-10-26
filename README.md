@@ -40,7 +40,7 @@ var createdContentTypes = ContentTypeBuilder.CreateContentTypesFromAssembly("Ass
 
 Imagining that the `BlogPost` class would be part of the `AssemblyName` assembly this would create a content type in Contentful by the name BlogPost with 4 fields.
 
-IMAGE OF CONTENT TYPE HERE
+![contenttype](https://user-images.githubusercontent.com/1835323/32037997-3ffc4dc8-ba28-11e7-9fe6-2589dce43470.PNG)
 
 As you can see the name and id of the content type has defaulted to the name of class. You can control this by specifying a number of properties on the `ContentType` attribute.
 
