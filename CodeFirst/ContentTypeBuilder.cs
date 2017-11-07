@@ -159,7 +159,7 @@ namespace Contentful.CodeFirst
 
             var createdTypes = new List<ContentType>();
             
-            var existingContentTypes = (await managementClient.GetContentTypesAsync()).ToList();
+            var existingContentTypes = (await managementClient.GetContentTypes()).ToList();
 
             if (configuration.ForceUpdateContentTypes == false)
             {
@@ -172,18 +172,18 @@ namespace Contentful.CodeFirst
                 //make sure to add correct version for existing content types
                 contentTypeInfo.ContentType.SystemProperties.Version = existingContentTypes.FirstOrDefault(c => c.SystemProperties.Id == contentTypeInfo.ContentType.SystemProperties.Id)?.SystemProperties.Version;
 
-                var createdContentType = await managementClient.CreateOrUpdateContentTypeAsync(contentTypeInfo.ContentType, version: contentTypeInfo.ContentType.SystemProperties.Version);
+                var createdContentType = await managementClient.CreateOrUpdateContentType(contentTypeInfo.ContentType, version: contentTypeInfo.ContentType.SystemProperties.Version);
 
                 if (configuration.PublishAutomatically)
                 {
-                    createdContentType = await managementClient.ActivateContentTypeAsync(createdContentType.SystemProperties.Id, createdContentType.SystemProperties.Version ?? 1);
+                    createdContentType = await managementClient.ActivateContentType(createdContentType.SystemProperties.Id, createdContentType.SystemProperties.Version ?? 1);
                 }
 
                 createdTypes.Add(createdContentType);
 
                 if (contentTypeInfo.InterfaceControls != null && contentTypeInfo.InterfaceControls.Any())
                 {
-                    var currentInterface = await managementClient.GetEditorInterfaceAsync(createdContentType.SystemProperties.Id);
+                    var currentInterface = await managementClient.GetEditorInterface(createdContentType.SystemProperties.Id);
 
 
                     foreach(var control in contentTypeInfo.InterfaceControls)
@@ -191,7 +191,7 @@ namespace Contentful.CodeFirst
                         var index = currentInterface.Controls.FindIndex(c => c.FieldId == control.FieldId);
                         currentInterface.Controls[index] = control;
                     }
-                    await managementClient.UpdateEditorInterfaceAsync(currentInterface, createdContentType.SystemProperties.Id, currentInterface.SystemProperties.Version.Value);
+                    await managementClient.UpdateEditorInterface(currentInterface, createdContentType.SystemProperties.Id, currentInterface.SystemProperties.Version.Value);
                 }
             }
 

@@ -77,12 +77,12 @@ namespace CodeFirst.Tests
             var contentTypes = await ContentTypeBuilder.CreateContentTypes(new[] { contentTypeInfo }, config, client.Object);
 
             //Assert
-            client.Verify(c => c.GetContentTypesAsync(null, default(CancellationToken)), Times.Once, "Did not receive call to get all contentTypes.");
-            client.Verify(c => c.CreateOrUpdateContentTypeAsync(contentTypeInfo.ContentType, 
+            client.Verify(c => c.GetContentTypes(null, default(CancellationToken)), Times.Once, "Did not receive call to get all contentTypes.");
+            client.Verify(c => c.CreateOrUpdateContentType(contentTypeInfo.ContentType, 
                 null, 
                 null, //We expect version to be null here since the content type did not previously exist.
                 default(CancellationToken)), Times.Once, "Did not receive a call to update contenttype.");
-            client.Verify(c => c.ActivateContentTypeAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string>(), default(CancellationToken)), Times.Never,
+            client.Verify(c => c.ActivateContentType(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string>(), default(CancellationToken)), Times.Never,
                 "Activate should not have been called since configuration value PublishAutomatically is false.");
         }
 
@@ -101,18 +101,18 @@ namespace CodeFirst.Tests
             var config = new ContentfulCodeFirstConfiguration { PublishAutomatically = true };
 
             var client = new Mock<IContentfulManagementClient>();
-            client.Setup(c => c.CreateOrUpdateContentTypeAsync(contentTypeInfo.ContentType, null, null, default(CancellationToken))).ReturnsAsync(contentTypeInfo.ContentType);
+            client.Setup(c => c.CreateOrUpdateContentType(contentTypeInfo.ContentType, null, null, default(CancellationToken))).ReturnsAsync(contentTypeInfo.ContentType);
 
             //Act
             var contentTypes = await ContentTypeBuilder.CreateContentTypes(new[] { contentTypeInfo }, config, client.Object);
 
             //Assert
-            client.Verify(c => c.GetContentTypesAsync(null, default(CancellationToken)), Times.Once, "Did not receive call to get all contentTypes.");
-            client.Verify(c => c.CreateOrUpdateContentTypeAsync(contentTypeInfo.ContentType,
+            client.Verify(c => c.GetContentTypes(null, default(CancellationToken)), Times.Once, "Did not receive call to get all contentTypes.");
+            client.Verify(c => c.CreateOrUpdateContentType(contentTypeInfo.ContentType,
                 null,
                 null, //We expect version to be null here since the content type did not previously exist.
                 default(CancellationToken)), Times.Once, "Did not receive a call to update contenttype.");
-            client.Verify(c => c.ActivateContentTypeAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string>(), default(CancellationToken)), Times.Once,
+            client.Verify(c => c.ActivateContentType(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<string>(), default(CancellationToken)), Times.Once,
                 "Activate should have been called since configuration value PublishAutomatically is true.");
         }
 
