@@ -126,10 +126,10 @@ namespace CodeFirst.Tests
             var contentTypes = ContentTypeBuilder.InitializeContentTypes(new[] { type });
             var first = contentTypes.First();
             //Assert
-            Assert.Equal(1, contentTypes.Count());
+            Assert.Single(contentTypes);
             Assert.Equal(6, first.ContentType.Fields.Count);
-            Assert.Equal(1, first.ContentType.Fields[2].Validations.Count);
-            Assert.Equal(1, first.ContentType.Fields[2].Items.Validations.Count);
+            Assert.Single(first.ContentType.Fields[2].Validations);
+            Assert.Single(first.ContentType.Fields[2].Items.Validations);
             Assert.IsType<SizeValidator>(first.ContentType.Fields[2].Validations[0]);
             Assert.IsType<LinkContentTypeValidator>(first.ContentType.Fields[2].Items.Validations[0]);
             Assert.Equal("Array", first.ContentType.Fields[2].Type);
@@ -138,7 +138,7 @@ namespace CodeFirst.Tests
             Assert.Equal("Person", string.Join(",", (first.ContentType.Fields[2].Items.Validations[0] as LinkContentTypeValidator).ContentTypeIds));
             Assert.Equal("Text", first.ContentType.Fields[1].Type);
             Assert.Equal(4, first.ContentType.Fields[1].Validations.Count);
-            Assert.Equal(1, first.ContentType.Fields[4].Validations.Count);
+            Assert.Single(first.ContentType.Fields[4].Validations);
             Assert.IsType<DateRangeValidator>(first.ContentType.Fields[4].Validations[0]);
             Assert.Equal(3, first.ContentType.Fields[3].Validations.Count);
             Assert.IsType<FileSizeValidator>(first.ContentType.Fields[3].Validations[1]);
@@ -149,8 +149,8 @@ namespace CodeFirst.Tests
             Assert.Null((first.ContentType.Fields[3].Validations[2] as ImageSizeValidator).MaxHeight);
             Assert.Equal(200, (first.ContentType.Fields[3].Validations[2] as ImageSizeValidator).MinWidth);
             Assert.Equal(200, (first.ContentType.Fields[3].Validations[2] as ImageSizeValidator).MinWidth);
-            Assert.Equal(0, first.ContentType.Fields[5].Validations.Count);
-            Assert.Equal(1, first.ContentType.Fields[5].Items.Validations.Count);
+            Assert.Empty(first.ContentType.Fields[5].Validations);
+            Assert.Single(first.ContentType.Fields[5].Items.Validations);
             Assert.IsType<LinkContentTypeValidator>(first.ContentType.Fields[5].Items.Validations[0]);
             Assert.Equal("Array", first.ContentType.Fields[5].Type);
             Assert.Equal("Entry", first.ContentType.Fields[5].Items.LinkType);
@@ -199,7 +199,7 @@ namespace CodeFirst.Tests
             var contentTypes = ContentTypeBuilder.InitializeContentTypes(new[] { type });
             var first = contentTypes.First();
             //Assert
-            Assert.Equal(1, contentTypes.Count());
+            Assert.Single(contentTypes);
             Assert.Collection(first.InterfaceControls, 
                 (i) => { Assert.Equal("rating", i.WidgetId); },
                 (i) => { Assert.Equal("singleLine", i.WidgetId); }
