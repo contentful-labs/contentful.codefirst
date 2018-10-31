@@ -9,12 +9,12 @@ This is a helper package that allows you to automatically create content types f
 We recommend you use the NuGet package manager to add Contentful.codefirst to your .Net application using the following command in your NuGet package manager console.
 
 ```csharp
-Install-Package contentful.codefirst -prerelease
+Install-Package contentful.codefirst
 ```
 
 ## Usage
 
-The codefirst package can inspect your assemblies, load suitable models and create content types. To mark a class as a content type simply add a `ContentType` attribute to it.
+The codefirst package can inspect your assemblies, load suitable models and create content types. To mark a class as a content type add a `ContentType` attribute to it.
 
 ```csharp
 [ContentType]
